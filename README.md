@@ -13,7 +13,8 @@ Usage
 
 Initialize the project
 ----------------------
-paolo ~/webapps/drushistrano $ cap staging deploy:setup
+
+`paolo ~/webapps/drushistrano $ cap staging deploy:setup
   * executing `staging'
   * executing `deploy:setup'
   * executing "mkdir -p /var/apps/app1 /var/apps/app1/releases /var/apps/app1/shared /var/apps/app1/shared/system /var/apps/app1/shared/log /var/apps/app1/shared/pids &&  chmod g+w /var/apps/app1 /var/apps/app1/releases /var/apps/app1/shared /var/apps/app1/shared/system /var/apps/app1/shared/log /var/apps/app1/shared/pids"
@@ -24,8 +25,7 @@ paolo ~/webapps/drushistrano $ cap staging deploy:setup
   * executing `drupal:setup'
   * executing "umask 02 && mkdir -p /var/apps/app1 /var/apps/app1/releases /var/apps/app1/shared /var/apps/app1/shared/default/files /var/apps/app1/shared/system"
     servers: ["188.40.59.145"]
-    [188.40.59.145:8888] executing command
-    command finished
+    [188.40.59.145:8888] exe`
 
 
 
