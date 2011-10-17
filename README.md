@@ -1,4 +1,4 @@
-# Initialize the project - cap staging deploy:setup
+### Initialize the project - cap staging deploy:setup
   paolo ~/webapps/drushistrano $ cap staging deploy:setup
     * executing `staging'
     * executing `deploy:setup'
@@ -13,7 +13,7 @@
       [188.40.59.145:8888] exe
 
 
-# File Structure after a deploy:setup
+### File Structure after a deploy:setup
   root@gilda /var/apps # cd app1/
   root@gilda /var/apps/app1 # ls -al
   total 16
