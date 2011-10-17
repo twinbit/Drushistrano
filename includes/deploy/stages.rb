@@ -10,7 +10,7 @@ task :development do
   
   # Remote WEB [IP|HOST][:PORT] (ex: 127.0.0.1:8888 or twinbitlabs.com:8888)
   role :web, "#REMOTE_SERVER_IP[:PORT]#", :primary => true
-  # Remote DBMS SERVER [IP|HOST][:PORT] (ex: 188.40.59.145:8888 or twinbitlabs.com:8888)
+  # Remote DBMS SERVER [IP|HOST][:PORT] (ex: 127.0.0.1:8888 or twinbitlabs.com:8888)
   role :db, "#REMOTE_SERVER_IP[:PORT]#", :primary => true, :no_release => true
 
   # Remote Drush override 
