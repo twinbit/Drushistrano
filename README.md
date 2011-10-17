@@ -14,7 +14,7 @@ Usage
 Initialize the project
 ----------------------
 
-Initialize the remote environment:
+Initialize the remote environment [cap #stage-name deploy:setup]
 
     paolo ~/webapps/drushistrano $ cap staging deploy:setup
       * executing `staging'
