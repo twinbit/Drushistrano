@@ -1,3 +1,10 @@
+Drushistrano
+====================
+
+When Drupal and Drush meets Capistrano
+--------------------------------------
+
+
 ### Initialize the project - cap staging deploy:setup
 	    paolo ~/webapps/drushistrano $ cap staging deploy:setup
 	      * executing `staging'
