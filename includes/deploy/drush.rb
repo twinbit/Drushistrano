@@ -67,7 +67,7 @@ namespace :drush do
     task :default do
       domains.each do |domain|
         dump_path = "#{shared_path}/files_backup/#{domain}"
-        filename = "files_#{domain}_#{Time.now.to_i.to_s}.tar.bz2"
+        filename = "files_#{domain}_#{stage_name}_#{Time.now.to_i.to_s}.tar.bz2"
         run "mkdir -p #{dump_path}"
         run "tar cjf #{dump_path}/#{filename} #{shared_path}/#{domain}/files"
       end
@@ -91,7 +91,7 @@ namespace :drush do
       run "mkdir -p #{shared_path}/db_dumps/"
       domains.each do |domain|
         run "mkdir -p #{shared_path}/db_dumps/#{domain}"
-        filename = "#{domain}_dump_#{Time.now.to_i.to_s}.sql"
+        filename = "#{domain}_#{stage_name}_dump_#{Time.now.to_i.to_s}.sql"
         dump_path = "#{shared_path}/db_dumps/#{domain}"
         run "#{remote_drush} --uri=#{domain} sql-dump --structure-tables-key=common > #{dump_path}/#{filename}"
         run "cd #{dump_path}; bzip2 #{filename}"
