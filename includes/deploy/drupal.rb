@@ -16,7 +16,6 @@ namespace :drupal do
         run "mkdir -p #{shared_path}/files";
         run "rm -rf #{latest_release}/sites/#{domain}/files"
         run "ln -s #{shared_path}/#{domain}/files #{latest_release}/sites/#{domain}/files"
-        run "ln -nfs #{release_path}/sites/#{domain}/settings.#{stage_name}.php #{release_path}/sites/#{domain}/settings.php"
      end
   end
 
