@@ -13,9 +13,11 @@ namespace :drupal do
   task :symlink, :except => { :no_release => true } do
      domains.each do |domain|
         # recreate domain file directory
-        run "mkdir -p #{shared_path}/files";
+        run "mkdir -p #{shared_path}/#{domain}/files";
         run "rm -rf #{latest_release}/sites/#{domain}/files"
         run "ln -s #{shared_path}/#{domain}/files #{latest_release}/sites/#{domain}/files"
+        # this is safe to be used in a multi-site environment where each domain have his own settings.php files
+        run "ln -nfs #{release_path}/sites/#{domain}/settings.#{stage_name}.php #{release_path}/sites/#{domain}/settings.php"
      end
   end
 
@@ -40,7 +42,7 @@ namespace :drupal do
 
   desc "Default directory"
   task :default_dir, :roles => [:web] do
-    if default_domain
+    if !default_domain.empty?
       run "ln -nfs #{release_path}/sites/#{default_domain}  #{release_path}/sites/default"
     else 
       run "ln -s #{release_path}/sites/default-#{stage_name} #{release_path}/sites/default"
@@ -50,7 +52,7 @@ namespace :drupal do
   
   desc "Create symlink for virtualhost"
   task :virtualhost, :roles => [:web] do
-    if virtual_host && default_domain
+    if !virtual_host.empty? && !default_domain.empty?
       virtual_host.each do |alias_domain|
           run "ln -s #{release_path}/sites/#{default_domain} #{release_path}/sites/#{alias_domain}"
        end
