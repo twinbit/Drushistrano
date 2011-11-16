@@ -55,3 +55,24 @@ File Structure after a deploy:setup
 	  drwxrwxr-x 3 deploy deploy 4096 2011-10-18 00:35 .
 	  drwxrwxr-x 6 deploy deploy 4096 2011-10-18 00:35 ..
 	  drwxrwxr-x 2 deploy deploy 4096 2011-10-18 00:35 files
+	
+
+File Structure after a deploy:setup
+-----------------------------------
+	# Ignore configuration files that may contain sensitive information.
+	sites/*/settings*.php
+	Capfile
+	includes/deploy
+	sites/default
+	config
+	.project
+	
+	# Ignore paths that contain user-generated content.
+	sites/*/files
+	sites/*/private
+	.DS_Store
+	.idea
+	*.sql
+	*.sql.*
+	*.bz2
+
