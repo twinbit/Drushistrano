@@ -12,52 +12,18 @@ namespace :drush do
 
   namespace :web do
     desc "Set Drupal maintainance mode to online."
-    task :enable, :except => { :no_release => true } do
-      set(:domain) do
-        Capistrano::CLI.ui.ask("Domain? (all or #{domains}) ") { |q| q.validate = /\A\w+\Z/ }
-      end unless exists?(:q)
-
-      php = 'variable_set("site_offline", FALSE)'
-
-      if domain == 'all'
-        domains.each do |domain|
-          run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
-        end
-      else
-        run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
+    task :enable do
+      domains.each do |domain|
+        php = 'variable_set("site_offline", FALSE)'
+        run "#{remote_drush} --uri=#{domain} eval '#{php}'"
       end
     end
 
     desc "Set Drupal maintainance mode to off-line."
-    task :disable, :except => { :no_release => true } do
-      set(:domain) do
-        Capistrano::CLI.ui.ask("Domain? (all or #{domains}) ") { |q| q.validate = /\A\w+\Z/ }
-      end unless exists?(:q)
-
-      php = 'variable_set("site_offline", TRUE)'
-      if domain == 'all'
-        domains.each do |domain|
-          run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
-        end
-      else
-        run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
-      end
-    end
-
-    desc "Drush custom command"
-    task :custom, :except => { :no_release => true } do
-      set(:command) do
-        Capistrano::CLI.ui.ask("Command to execute:")
-      end unless exists?(:command)
-      set(:domain) do
-        Capistrano::CLI.ui.ask("Domain? (all or #{domains}) ") { |q| q.validate = /\A\w+\Z/ }
-      end unless exists?(:q)
-      if domain == 'all'
-        domains.each do |domain|
-          run "#{remote_drush} --uri=#{domain} #{command}"
-        end
-      else
-        run "#{remote_drush} --uri=#{domain} #{command}"
+    task :disable do
+      domains.each do |domain|
+        php = 'variable_set("site_offline", TRUE)'
+        run "#{remote_drush} --uri=#{domain} eval '#{php}'"
       end
     end
   end
@@ -67,9 +33,9 @@ namespace :drush do
     task :default do
       domains.each do |domain|
         dump_path = "#{shared_path}/files_backup/#{domain}"
-        filename = "files_#{domain}_#{stage_name}_#{Time.now.to_i.to_s}.tar.bz2"
+        filename = "files_#{domain}_#{Time.now.to_i.to_s}.tar.bz2"
         run "mkdir -p #{dump_path}"
-        run "tar cjf #{dump_path}/#{filename} #{shared_path}/#{domain}/files"
+        run "cd #{shared_path}/#{domain}/files; tar cjf #{dump_path}/#{filename} *"
       end
     end
     
@@ -84,14 +50,13 @@ namespace :drush do
     end
   end
 
-
   namespace :db do
     desc "Database backup"
     task :default, :except => { :no_release => true } do
       run "mkdir -p #{shared_path}/db_dumps/"
       domains.each do |domain|
         run "mkdir -p #{shared_path}/db_dumps/#{domain}"
-        filename = "#{domain}_#{stage_name}_dump_#{Time.now.to_i.to_s}.sql"
+        filename = "#{domain}_dump_#{Time.now.to_i.to_s}.sql"
         dump_path = "#{shared_path}/db_dumps/#{domain}"
         run "#{remote_drush} --uri=#{domain} sql-dump --structure-tables-key=common > #{dump_path}/#{filename}"
         run "cd #{dump_path}; bzip2 #{filename}"
@@ -108,4 +73,5 @@ namespace :drush do
       end
     end
   end
+  
 end
