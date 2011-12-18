@@ -63,39 +63,39 @@ namespace :drush do
   end
   
   namespace :files do 
-    desc "Create files backup"
-    task :default do
-      domains.each do |domain|
-        dump_path = "#{shared_path}/files_backup/#{domain}"
-        filename = "files_#{domain}_#{Time.now.to_i.to_s}.tar.bz2"
-        run "mkdir -p #{dump_path}"
-        run "cd #{shared_path}/#{domain}/files; tar cjf #{dump_path}/#{filename} *"
-      end
-    end
-    
-    desc "Download files backup"
-    task :dl, :except => { :no_release => true } do
-      drush::files::default
-      domains.each do |domain|
-         dump_path = "#{shared_path}/files_backup/#{domain}"         
-         dumps = capture("ls -xt #{dump_path}").split.reverse
-         get("#{dump_path}/#{dumps.last}", "./#{dumps.last}")
-      end
-    end
-  end
+     desc "Create files backup"
+     task :default do
+       domains.each do |domain|
+         dump_path = "#{shared_path}/files_backup/#{domain}"
+         filename = "#{domain}_files_dump_#{Time.now.to_i.to_s}.tar.bz2"
+         run "mkdir -p #{dump_path}"
+         run "cd #{shared_path}/#{domain}/files; tar cjf #{dump_path}/#{filename} *"
+       end
+     end
 
-  namespace :db do
-    desc "Database backup"
-    task :default, :except => { :no_release => true } do
-      run "mkdir -p #{shared_path}/db_dumps/"
-      domains.each do |domain|
-        run "mkdir -p #{shared_path}/db_dumps/#{domain}"
-        filename = "#{domain}_dump_#{Time.now.to_i.to_s}.sql"
-        dump_path = "#{shared_path}/db_dumps/#{domain}"
-        run "#{remote_drush} --uri=#{domain} sql-dump --structure-tables-key=common > #{dump_path}/#{filename}"
-        run "cd #{dump_path}; bzip2 #{filename}"
-      end
-    end
+     desc "Download files backup"
+     task :dl, :except => { :no_release => true } do
+       drush::files::default
+       domains.each do |domain|
+          dump_path = "#{shared_path}/files_backup/#{domain}"         
+          dumps = capture("ls -xt #{dump_path}").split.reverse
+          get("#{dump_path}/#{dumps.last}", "./#{dumps.last}")
+       end
+     end
+   end
+
+   namespace :db do
+     desc "Database backup"
+     task :default, :except => { :no_release => true } do
+       run "mkdir -p #{shared_path}/db_dumps/"
+       domains.each do |domain|
+         run "mkdir -p #{shared_path}/db_dumps/#{domain}"
+         filename = "#{domain}_db_dump_#{Time.now.to_i.to_s}.sql"
+         dump_path = "#{shared_path}/db_dumps/#{domain}"
+         run "#{remote_drush} --uri=#{domain} sql-dump --structure-tables-key=common > #{dump_path}/#{filename}"
+         run "cd #{dump_path}; bzip2 #{filename}"
+       end
+     end
 
    desc "Database Download backup"
     task :dl, :except => { :no_release => true } do
