@@ -13,7 +13,7 @@ namespace :drupal do
   task :symlink, :except => { :no_release => true } do
      domains.each do |domain|
         # recreate domain file directory
-        run "mkdir -p #{shared_path}/#{domain}/files";
+        run "mkdir -p #{shared_path}/#{domain}/files && chmod 777 #{shared_path}/#{domain}/files";
         run "rm -rf #{latest_release}/sites/#{domain}/files"
         run "ln -s #{shared_path}/#{domain}/files #{latest_release}/sites/#{domain}/files"
         # this is safe to be used in a multi-site environment where each domain have his own settings.php files
