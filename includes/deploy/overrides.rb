@@ -1,7 +1,9 @@
 # after trigger
 after "deploy", "deploy:cleanup", "drush:cc" #, "drush:db"
 after 'deploy:setup', 'drupal:setup'
+# deprecated in the latest versions
 after 'deploy:symlink', 'drupal:symlink'
+after 'deploy:create_symlink', 'drupal:symlink'
 after "deploy:update_code", 'drupal:remove_git_directories', 'drupal:htaccess', 'drupal:default_dir', 'drupal:virtualhost', 'drupal:robots'
 
 namespace :deploy do
