@@ -5,7 +5,7 @@ namespace :drush do
   desc "Drush cache clear"
   task :cc, :except => { :no_release => true } do
     domains.each do |domain|
-      run "#{remote_drush} --uri=#{domain} cc all"
+      run "cd #{current_path}; #{remote_drush} --uri=#{domain} cc all"
     end
   end
 
@@ -21,10 +21,10 @@ namespace :drush do
 
       if domain == 'all'
         domains.each do |domain|
-          run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
+          run "cd #{current_path}; #{remote_drush} --uri=#{domain} php-eval '#{php}'"
         end
       else
-        run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
+        run "cd #{current_path}; #{remote_drush} --uri=#{domain} php-eval '#{php}'"
       end
     end
 
@@ -37,10 +37,10 @@ namespace :drush do
       php = 'variable_set("site_offline", TRUE)'
       if domain == 'all'
         domains.each do |domain|
-          run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
+          run "cd #{current_path}; #{remote_drush} --uri=#{domain} php-eval '#{php}'"
         end
       else
-        run "#{remote_drush} --uri=#{domain} php-eval '#{php}'"
+        run "cd #{current_path}; #{remote_drush} --uri=#{domain} php-eval '#{php}'"
       end
     end
 
@@ -54,10 +54,10 @@ namespace :drush do
       end unless exists?(:q)
       if domain == 'all'
         domains.each do |domain|
-          run "#{remote_drush} --uri=#{domain} #{command}"
+          run "cd #{current_path}; #{remote_drush} --uri=#{domain} #{command}"
         end
       else
-        run "#{remote_drush} --uri=#{domain} #{command}"
+        run "cd #{current_path}; #{remote_drush} --uri=#{domain} #{command}"
       end
     end
   end
@@ -92,7 +92,7 @@ namespace :drush do
          run "mkdir -p #{shared_path}/db_dumps/#{domain}"
          filename = "#{domain}_db_dump_#{Time.now.to_i.to_s}.sql"
          dump_path = "#{shared_path}/db_dumps/#{domain}"
-         run "#{remote_drush} --uri=#{domain} sql-dump --structure-tables-key=common > #{dump_path}/#{filename}"
+         run "cd #{current_path}; #{remote_drush} --uri=#{domain} sql-dump --structure-tables-key=common > #{dump_path}/#{filename}"
          run "cd #{dump_path}; bzip2 #{filename}"
        end
      end
