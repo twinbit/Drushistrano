@@ -29,7 +29,11 @@ namespace :drupal do
 
   desc "Fix htaccess"
   task :htaccess, :roles => [:web] do
-    run "mv #{release_path}/htaccess #{release_path}/.htaccess"
+    if File.exists?("#{latest_release}/htaccess-#{stage_name}")
+      run "mv #{release_path}/htaccess-#{stage_name} #{release_path}/.htaccess"
+    else 
+      run "mv #{release_path}/htaccess #{release_path}/.htaccess"
+    end
   end
   
   desc "Robots"
