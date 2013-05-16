@@ -2,6 +2,7 @@ desc "deploy to production environment"
 task :development do
   set :stage_name, "development"
   set :application, "#APPLICATION_NAME#"
+  # we should use an absolute path (tilde is not admitted by sftp - https://groups.google.com/d/msg/capistrano/CCAfCsN-o80/AnvxU4MW3OIJ)
   set :deploy_to,  "/var/apps/#{application}"
   
   # Remote GIT repository (ex: git://github.com/drupal/drupal.git)
