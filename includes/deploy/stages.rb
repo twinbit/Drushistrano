@@ -20,6 +20,9 @@ task :development do
   # SSH Configurations (user, pass) (is highly suggested to use ssh key authentication)
   set :user, "deploy"
 #  set :pass, 'deploy'
+
+  # Forward local ssh keys.
+  ssh_options[:forward_agent] = true
   set :use_sudo, false
 
   # Drupal domains to deploy (keep "default" domain or at least one domain to use)
